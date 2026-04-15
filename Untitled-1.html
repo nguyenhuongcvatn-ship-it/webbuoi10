@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kiểm tra mật khẩu</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      input {
+        padding: 8px;
+        margin: 10px 0;
+        width: 250px;
+      }
+      button {
+        padding: 8px 12px;
+      }
+      #message {
+        margin-top: 15px;
+        font-weight: bold;
+      }
+      .error {
+        color: red;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Nhập mật khẩu để kiểm tra</h2>
+    <input type="password" id="password" placeholder="Nhập mật khẩu..." />
+    <button onclick="validatePassword()">Kiểm tra</button>
+    <div id="message"></div>
+
+    <script>
+      function validatePassword() {
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
+
+        // Các tiêu chí kiểm tra
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[@#$%^&*!]/.test(password);
+
+        // Kiểm tra độ dài
+        if (password.length < 8) {
+          message.innerHTML =
+            "<span class='error'>Mật khẩu phải có ít nhất 8 ký tự.</span>";
+          return;
+        }
+        if (!hasUpper) {
+          message.innerHTML =
+            "<span class='error'>Mật khẩu phải chứa ít nhất một chữ cái viết hoa (A-Z).</span>";
+          return;
+        }
+        if (!hasLower) {
+          message.innerHTML =
+            "<span class='error'>Mật khẩu phải chứa ít nhất một chữ cái viết thường (a-z).</span>";
+          return;
+        }
+        if (!hasNumber) {
+          message.innerHTML =
+            "<span class='error'>Mật khẩu phải chứa ít nhất một chữ số (0-9).</span>";
+          return;
+        }
+        if (!hasSpecial) {
+          message.innerHTML =
+            "<span class='error'>Mật khẩu phải chứa ít nhất một ký tự đặc biệt (@, #, $, %, ...).</span>";
+          return;
+        }
+
+        // Nếu hợp lệ, đánh giá độ mạnh
+        let strength = "";
+        if (password.length === 8) {
+          strength = "Yếu";
+        } else if (password.length < 12) {
+          strength = "Trung bình";
+        } else {
+          strength = "Mạnh";
+        }
+
+        message.innerHTML = `<span class='success'>Mật khẩu hợp lệ! Độ mạnh: ${strength}</span>`;
+      }
+    </script>
+  </body>
+</html>
